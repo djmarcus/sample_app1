@@ -30,7 +30,7 @@ describe PagesController do
       get 'contact'
       response.should have_selector("title",
                                     :content => @base_title + " | Contact")
-      end
+    end
   end
 
   describe "GET 'about'" do
