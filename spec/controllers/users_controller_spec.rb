@@ -52,6 +52,22 @@ describe UsersController do
         response.should have_selector("a", :href => "/users?page=2",
                                            :content => "Next")
       end
+     
+      it "should have a delete link for admins" do
+        get :index
+        if @user.admin?
+          response.should have_selector("a", :href => "/users?page=2",
+                                             :content => "delete") 
+        end
+      end 
+      
+      it "should not have a delete link for non admins" do
+        get :index
+        if !@user.admin?
+          response.should_not have_selector("a", :href => "/users?page=2",
+                                                 :content => "delete")
+        end
+      end
     end
   end
 
@@ -321,6 +337,12 @@ describe UsersController do
       it "should redirect to the users page" do
         delete :destroy, :id => @user
         response.should redirect_to(users_path)
+      end
+    
+      it "should not allow admins to delete themselves" do
+        lambda do
+          delete :destroy, :id => controller.current_user
+        end.should_not change(User, :count).by(-1)
       end
     end
   end
