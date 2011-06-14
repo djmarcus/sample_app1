@@ -38,5 +38,40 @@ describe "Microposts" do
       end
     end
   end
+
+  describe "sidebar" do
+  
+    describe "should display the correct micropost count for the user" do
+      
+      it "should display 'Microposts' with zero posts" do
+        visit root_path
+        response.should have_selector("span", :content => "0 microposts")
+      end
+
+      it "should display 'Micropost' with one post" do
+        content = "Lorem ipsum dolor sit amet"
+        lambda do
+          visit root_path
+          fill_in :micropost_content, :with => content
+          click_button
+          response.should have_selector("span", :content => "1 micropost")
+        end
+      end
+
+      it "should display 'Microposts' with more than one post" do
+        content = "Lorem ipsom something something"
+        content2 = "I hope this test works"
+
+        lambda do 
+          visit root_path
+          fill_in :micropost_content, :with =>content
+          click_button
+          fill_in :micropost_content, :with =>content2
+          click_button
+          response.should have_selector("span", :content => "2 micropsots")
+        end
+      end
+    end
+  end
 end
 

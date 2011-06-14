@@ -167,6 +167,10 @@ describe User do
       @user.microposts.should == [@mp2, @mp1]
     end 
 
+#    it "should display the right number of microposts" do
+#      @user.microposts.count.should == 2
+#    end
+
     it "should destroy associated microposts" do
       @user.destroy
       [@mp1, @mp2].each do |micropost|
